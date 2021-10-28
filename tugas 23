@@ -1,0 +1,58 @@
+let latlngs=[]
+let polyline
+        mymap.on('click', e=>{
+            let x=0
+            const{lat,lng}= e.latlng
+            latlngs.push({lat,lng})
+            console.log('lngs',latlngs) 
+
+            
+
+            if(latlngs.length===1){
+                
+            }
+            else if(latlngs.length===2) {
+                console.log('lat1',latlngs[0].lat) 
+                console.log('lat2',latlngs[1].lat) 
+                console.log('lng1',latlngs[0].lng) 
+                console.log('lng2',latlngs[1].lng) 
+               
+               const numx=distance(latlngs[0].lat,latlngs[1].lat,latlngs[0].lng,latlngs[1].lng)*100
+               console.log('numx',numx)
+               
+               if((latlngs[1].lat-latlngs[0].lat)>(latlngs[1].lng-latlngs[0].lng)){
+                for(let i=0;i<numx;i++){
+                    
+                    let lat=(latlngs[0].lat+2*x)
+                    
+                    x=x+0.00005
+                    polyline =L.polyline(
+                        [[lat,latlngs[0].lng],
+                        [lat, latlngs[0].lng+0.00005],
+                        [lat+0.00005, latlngs[0].lng+0.00005],
+                        [lat+0.00005, latlngs[0].lng-0.00005],
+                        [lat+2*0.00005, latlngs[0].lng-0.00005],
+                        [lat+2*0.00005, latlngs[0].lng]]
+                        ).addTo(mymap)
+                        
+                    }
+                    
+                }else{
+                    for(let i=0;i<numx;i++){
+                        let lng=(latlngs[0].lng+2*x)
+                        
+                        x=x+0.00005
+                        polyline =L.polyline(
+                            [[latlngs[0].lat,lng],
+                            [latlngs[0].lat+0.00005, lng],
+                            [latlngs[0].lat+0.00005, lng+0.00005],
+                            [latlngs[0].lat-0.00005, lng+0.00005],
+                            [latlngs[0].lat-0.00005, lng+2*0.00005],
+                            [latlngs[0].lat, lng+2*0.00005]]
+                            ).addTo(mymap)
+                        }
+                    }
+                    latlngs=[]
+        }
+        
+})
